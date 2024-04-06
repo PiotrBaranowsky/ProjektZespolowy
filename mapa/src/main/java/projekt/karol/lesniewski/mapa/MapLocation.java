@@ -1,9 +1,18 @@
 package projekt.karol.lesniewski.mapa;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name = "maplocations")
 public class MapLocation {
-    List<Double> loc;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    Double lat;
+    Double lon;
     String firstName;
 
     String lastName;
@@ -13,19 +22,40 @@ public class MapLocation {
     String rank;
 
     public MapLocation(List<Double> loc, String firstName, String lastName, String phoneNumber, String rank) {
-        this.loc = loc;
+        this.lat = loc.get(0);
+        this.lon = loc.get(1);
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.rank = rank;
     }
 
-    public List<Double> getLoc() {
-        return loc;
+    public MapLocation() {
+
     }
 
-    public void setLoc(List<Double> loc) {
-        this.loc = loc;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
     }
 
     public String getFirstName() {
@@ -63,7 +93,9 @@ public class MapLocation {
     @Override
     public String toString() {
         return "MapLocation{" +
-                "loc=" + loc +
+                "id=" + id +
+                ", lat=" + lat +
+                ", lon=" + lon +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
