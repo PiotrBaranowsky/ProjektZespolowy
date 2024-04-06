@@ -1,0 +1,33 @@
+2024-04-05 23:42:45.106314+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+select ml1_0.id,ml1_0.first_name,ml1_0.last_name,ml1_0.lat,ml1_0.lon,ml1_0.phone_number,ml1_0.rank from maplocations ml1_0 [42104-224]
+2024-04-06 00:05:28.163173+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+select ml1_0.id,ml1_0.first_name,ml1_0.last_name,ml1_0.lat,ml1_0.lon,ml1_0.phone_number,ml1_0.rank from maplocations ml1_0 where ml1_0.id=? [42104-224]
+2024-04-06 00:05:28.849346+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+select ml1_0.id,ml1_0.first_name,ml1_0.last_name,ml1_0.lat,ml1_0.lon,ml1_0.phone_number,ml1_0.rank from maplocations ml1_0 where ml1_0.id=? [42104-224]
+2024-04-06 00:33:33.513079+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+insert into maplocations (first_name,last_name,lat,lon,phone_number,rank,id) values (?,?,?,?,?,?,default) [42104-224]
+2024-04-06 00:33:55.852982+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+insert into maplocations (first_name,last_name,lat,lon,phone_number,rank,id) values (?,?,?,?,?,?,default) [42104-224]
+2024-04-06 00:35:11.831648+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+insert into maplocations (first_name,last_name,lat,lon,phone_number,rank,id) values (?,?,?,?,?,?,default) [42104-224]
+2024-04-06 00:35:38.625860+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+insert into maplocations (first_name,last_name,lat,lon,phone_number,rank,id) values (?,?,?,?,?,?,default) [42104-224]
+2024-04-06 00:37:36.869329+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+insert into maplocations (first_name,last_name,lat,lon,phone_number,rank,id) values (?,?,?,?,?,?,default) [42104-224]
+2024-04-06 00:38:50.756962+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+insert into maplocations (first_name,last_name,lat,lon,phone_number,rank,id) values (?,?,?,?,?,?,default) [42104-224]
+2024-04-06 00:39:41.228468+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+insert into maplocations (first_name,last_name,lat,lon,phone_number,rank,id) values (?,?,?,?,?,?,default) [42104-224]
+2024-04-06 00:41:29.299168+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MAPLOCATIONS" not found (this database is empty); SQL statement:
+insert into maplocations (first_name,last_name,lat,lon,phone_number,rank,id) values (?,?,?,?,?,?,default) [42104-224]
