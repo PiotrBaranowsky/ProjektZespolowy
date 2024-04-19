@@ -1,23 +1,31 @@
 package projekt.karol.lesniewski.mapa;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/location")
+@AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class OurRestController {
 
-    @Autowired
-    MapLocationRepository repository;
+    private final MapLocationRepository repository;
+
+    private final DistanceService distanceService;
 
     @GetMapping("/all")
     public List<MapLocation> getLocation() {
-        List<MapLocation> list = repository.findAll();
-        return list;
+        return repository.findAll();
+    }
+
+    @PostMapping("/dist")
+    public List<MapLocationDistance> getLocation(@RequestBody DistanceFrom base) {
+        return distanceService.getLocations(base);
     }
 
     @DeleteMapping("/{id}")
@@ -27,7 +35,9 @@ public class OurRestController {
             throw new RuntimeException("No user with that ID is available!");
         repository.deleteById(id);
         return location.get();
-    }git add .
+    }
+
+
 
     @PostMapping
     public void sendLocation(@RequestBody MapLocation location) {

@@ -1,6 +1,5 @@
 package projekt.karol.lesniewski.mapa;
 
-import jakarta.persistence.GeneratedValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,10 +7,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DistanceFrom {
+public class MapLocationDistance {
 
     Double lat;
     Double lon;
-    Long distance;
+    String firstName;
 
+    String lastName;
+
+    String phoneNumber;
+
+    String rank;
+
+    Double distance;
 }
