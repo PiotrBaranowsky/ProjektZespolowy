@@ -1,30 +1,38 @@
 package projekt.karol.lesniewski.mapa;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/location")
+@CrossOrigin(origins = "*")
 public class OurRestController {
 
     @Autowired
     MapLocationRepository repository;
 
-    @GetMapping("/location")
+    @GetMapping("/all")
     public List<MapLocation> getLocation() {
         List<MapLocation> list = repository.findAll();
         return list;
     }
 
-    @PostMapping("/location")
+    @DeleteMapping("/{id}")
+    public MapLocation deleteLocation(@PathVariable Long id) {
+        Optional<MapLocation> location = repository.findById(id);
+        if(location.isEmpty())
+            throw new RuntimeException("No user with that ID is available!");
+        repository.deleteById(id);
+        return location.get();
+    }git add .
+
+    @PostMapping
     public void sendLocation(@RequestBody MapLocation location) {
         System.out.println(location);
-        MapLocation mapLocation = new MapLocation(List.of(51.5, -0.07), "Andrzej", "Janowski", "123654832", "szeregowy");        repository.save(mapLocation);
+        repository.save(location);
     }
 
 }
