@@ -39,7 +39,7 @@
                 position: static;
                 top: 0;
                 bottom: 0;
-                left: 400px;
+                left: 0;
                 right: 0;
                 width: 800px;
                 height: 800px;
@@ -50,6 +50,49 @@
             }
 
         </style>
+
+        <style>
+            .tableContainer {
+                overflow: scroll;
+                width: 800px;
+                height: 500px;
+            }
+
+            .table {
+                position: sticky;
+                top: 0;
+                width: 100%;
+            }
+        </style>
+
+        <style>
+            .GFG {
+                background-color: white;
+                border: 2px solid black;
+                color: green;
+                padding: 5px 10px;
+                text-align: center;
+                display: inline-block;
+                font-size: 20px;
+                margin: 10px 10px;
+                cursor: pointer;
+            }
+
+            .table-scroll thead th {
+                position: sticky;
+                top: 0;
+            }
+
+            .table-scroll tfoot td {
+                position: sticky;
+                bottom: 0;
+            }
+        </style>
+
+        <script src=
+                        "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+        </script>
+
     </head>
 
 
@@ -81,11 +124,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="about"> Więcej informacji </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"> Zaloguj się</a>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="map">Mapa<span
+                                        class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"> Zarejestruj się</a>
+                                <a class="nav-link" href="#"> Zaloguj się</a>
                             </li>
                         </ul>
 
@@ -99,15 +143,177 @@
 </div>
 
 <section class="map">
-    <h1>List of soldiers:</h1>
-    <input type="text" id="Name" placeholder="Enter name">
-    <button onclick="fetchData()">Fetch</button>
-    <br>
-    <script src="index.js"></script>
 
-    <img src="" , alt="Pokemon Sprite" id="pokemonSprite" style="display: none">
+    <div class="flexbox-container" style="display:flex;">
 
-    <div id="map"></div>
+        <div id="map" style="flex:1;"></div>
+        <div class="main" style="flex:1;">
+            Wybierz Brygadę Obrony Terytorialnej
+            <br>
+            <select name="language" id="language">
+                <option value="podlaska">1. Podlaska Brygada Obrony Terytorialnej</option>
+                <option value="lubelska">2. Lubelska Brygada Obrony Terytorialnej</option>
+                <option value="podkarpacka">3. Podkarpacka Brygada Obrony Terytorialnej</option>
+                <option value="warminsko-mazurska">4. Warmińsko - Mazurska Brygada Obrony Terytorialnej</option>
+                <option value="mazowiecka-ciechanow">5. Mazowiecka Brygada Obrony Terytorialnej</option>
+                <option value="mazowiecka-radom">6. Mazowiecka Brygada Obrony Terytorialnej</option>
+                <option value="pomorska">7. Pomorska Brygada Obrony Terytorialnej</option>
+                <option value="kujawsko-pomorska">8. Kujawsko - Pomorska Brygada Obrony Terytorialnej</option>
+                <option value="lodzka">9. Łódzka Brygada Obrony Terytorialnej</option>
+            </select>
+            <br>
+            <br>
+            Pobierz lokalizacje Żołnierzy
+            <button onclick="GFG_FUN()">Pobierz lokalizacje</button>
+            <br>
+            <br>
+            Wyślij wezwanie do Jednostki do wszystkich
+            <button onclick="sendCall()">Wezwij Żołnierzy</button>
+            <label class="GFG">
+                <input type="checkbox"
+                       name="checkbox"
+                       value="Geeks">
+                Potwierdź wysłanie wiadomości
+            </label>
+            <br>
+            <br>
+
+            <h2> Lista Żołnierzy </h2>
+
+            <p id="GFG_UP" style="font-size: 15px;">
+            </p>
+
+            <br><br>
+
+            <br>
+
+            <table id="table"></table>
+
+            <script>
+                let el_up = document.getElementById("GFG_UP");
+
+
+
+                function GFG_FUN() {
+                    let cols = [];
+                    data2 = [];
+                    fetch('http://localhost:8082/location', {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    })
+                            .then(response => response.json())
+                            .then(data1 => {
+                                // Process the JSON data
+                                console.log(data1);
+                                data2 = data1
+                                el_up.innerHTML = "table from the JSON data.<br><br>"
+                                        + JSON.stringify(data1[0]) + "<br>"
+                                        + JSON.stringify(data1[1]) + "<br>"
+                                        + JSON.stringify(data1[2]);
+
+                            })
+                            .catch(error => {
+                                console.error('Error fetching data:', error);
+                            });
+
+                    for (let i = 0; i < data2.length; i++) {
+                        for (let k in data2[i]) {
+                            if (cols.indexOf(k) === -1) {
+
+                                // Push all keys to the array
+                                cols.push(k);
+                            }
+                        }
+                    }
+
+                    // Create a table element
+                    let table = document.createElement("table");
+
+                    // Create table row tr element of a table
+                    let tr = table.insertRow(-1);
+
+                    for (let i = 0; i < cols.length; i++) {
+
+                        // Create the table header th element
+                        let theader = document.createElement("th");
+                        theader.innerHTML = cols[i];
+
+                        // Append columnName to the table row
+                        tr.appendChild(theader);
+                    }
+
+                    // Adding the data to the table
+                    for (let i = 0; i < data.length; i++) {
+
+                        // Create a new row
+                        trow = table.insertRow(-1);
+                        for (let j = 0; j < cols.length; j++) {
+                            let cell = trow.insertCell(-1);
+
+                            // Inserting the cell at particular place
+                            cell.innerHTML = data2[i][cols[j]];
+                        }
+                    }
+
+                    // Add the newly created table containing json data
+                    let el = document.getElementById("table");
+                    el.innerHTML = "";
+                    el.appendChild(table);
+                }
+
+            </script>
+
+
+            <div class="tableContainer">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Stopień</th>
+                        <th>Telefon</th>
+                        <th>lat</th>
+                        <th>lon</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>Alfreds Futterkiste</td>
+                        <td>Maria Anders</td>
+                        <td>Germany</td>
+                    </tr>
+                    </tbody>
+                    <tr>
+                        <td>Centro comercial Moctezuma</td>
+                        <td>Francisco Chang</td>
+                        <td>Mexico</td>
+                    </tr>
+
+                    <tr>
+                        <td>Centro comercial Moctezuma</td>
+                        <td>Francisco Chang</td>
+                        <td>Mexico</td>
+                    </tr>
+                    <tr>
+                        <td>Centro comercial Moctezuma</td>
+                        <td>Francisco Chang</td>
+                        <td>Mexico</td>
+                    </tr>
+                    <tr>
+                        <td>Centro comercial Moctezuma</td>
+                        <td>Francisco Chang</td>
+                        <td>Mexico</td>
+                    </tr>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
 
 </section>
 
@@ -207,8 +413,8 @@
 <!-- footer section -->
 <section class="container-fluid footer_section">
     <p>
-        &copy; 2019 All Rights Reserved By
-        <a href="https://html.design/">Free Html Templates</a>
+        &copy; 2024 All Rights Reserved By
+        <a href="https://localhost:8081/index">MapaWOT</a>
     </p>
 </section>
 <!-- footer section -->
@@ -219,7 +425,6 @@
 </script>
 
 <script>
-
     // JavaScript code
     fetch('http://localhost:8082/location', {
         headers: {
@@ -235,6 +440,7 @@
                 console.error('Error fetching data:', error);
             });
 </script>
+
 <script>
     const map = L.map('map');
     map.setView([51.713, 19.413], 7);
@@ -263,7 +469,7 @@
 
     const customIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/szeregowy.png',
-        iconSize: [70, 53],
+        iconSize: [88/5, 203/5],
     })
 
     for (let key in data) {
