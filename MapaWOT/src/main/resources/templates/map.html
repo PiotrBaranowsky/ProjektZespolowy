@@ -147,6 +147,7 @@
     <div class="flexbox-container" style="display:flex;">
 
         <div id="map" style="flex:1;"></div>
+
         <div class="main" style="flex:1;">
             Wybierz Brygadę Obrony Terytorialnej
             <br>
@@ -171,6 +172,7 @@
             <button onclick="sendCall()">Wezwij Żołnierzy</button>
             <label class="GFG">
                 <input type="checkbox"
+                       id="confirmCheckbox"
                        name="checkbox"
                        value="Geeks">
                 Potwierdź wysłanie wiadomości
@@ -180,90 +182,7 @@
 
             <h2> Lista Żołnierzy </h2>
 
-            <p id="GFG_UP" style="font-size: 15px;">
-            </p>
-
-            <br><br>
-
-            <br>
-
-            <table id="table"></table>
-
-            <script>
-                let el_up = document.getElementById("GFG_UP");
-
-
-
-                function GFG_FUN() {
-                    let cols = [];
-                    data2 = [];
-                    fetch('http://localhost:8082/location', {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*'
-                        }
-                    })
-                            .then(response => response.json())
-                            .then(data1 => {
-                                // Process the JSON data
-                                console.log(data1);
-                                data2 = data1
-                                el_up.innerHTML = "table from the JSON data.<br><br>"
-                                        + JSON.stringify(data1[0]) + "<br>"
-                                        + JSON.stringify(data1[1]) + "<br>"
-                                        + JSON.stringify(data1[2]);
-
-                            })
-                            .catch(error => {
-                                console.error('Error fetching data:', error);
-                            });
-
-                    for (let i = 0; i < data2.length; i++) {
-                        for (let k in data2[i]) {
-                            if (cols.indexOf(k) === -1) {
-
-                                // Push all keys to the array
-                                cols.push(k);
-                            }
-                        }
-                    }
-
-                    // Create a table element
-                    let table = document.createElement("table");
-
-                    // Create table row tr element of a table
-                    let tr = table.insertRow(-1);
-
-                    for (let i = 0; i < cols.length; i++) {
-
-                        // Create the table header th element
-                        let theader = document.createElement("th");
-                        theader.innerHTML = cols[i];
-
-                        // Append columnName to the table row
-                        tr.appendChild(theader);
-                    }
-
-                    // Adding the data to the table
-                    for (let i = 0; i < data.length; i++) {
-
-                        // Create a new row
-                        trow = table.insertRow(-1);
-                        for (let j = 0; j < cols.length; j++) {
-                            let cell = trow.insertCell(-1);
-
-                            // Inserting the cell at particular place
-                            cell.innerHTML = data2[i][cols[j]];
-                        }
-                    }
-
-                    // Add the newly created table containing json data
-                    let el = document.getElementById("table");
-                    el.innerHTML = "";
-                    el.appendChild(table);
-                }
-
-            </script>
-
+            <div id="GFG_UP" style="font-size: 15px;"></div>
 
             <div class="tableContainer">
                 <table class="table">
@@ -278,38 +197,94 @@
                         <th>lon</th>
                     </tr>
                     </thead>
-
-                    <tbody>
-                    <tr>
-                        <td>Alfreds Futterkiste</td>
-                        <td>Maria Anders</td>
-                        <td>Germany</td>
-                    </tr>
+                    <tbody id="soldierTableBody">
+                    <!-- Rows will be dynamically inserted here -->
                     </tbody>
-                    <tr>
-                        <td>Centro comercial Moctezuma</td>
-                        <td>Francisco Chang</td>
-                        <td>Mexico</td>
-                    </tr>
-
-                    <tr>
-                        <td>Centro comercial Moctezuma</td>
-                        <td>Francisco Chang</td>
-                        <td>Mexico</td>
-                    </tr>
-                    <tr>
-                        <td>Centro comercial Moctezuma</td>
-                        <td>Francisco Chang</td>
-                        <td>Mexico</td>
-                    </tr>
-                    <tr>
-                        <td>Centro comercial Moctezuma</td>
-                        <td>Francisco Chang</td>
-                        <td>Mexico</td>
-                    </tr>
-
                 </table>
             </div>
+
+            <script>
+                function GFG_FUN() {
+                    layerGroup.clearLayers(); // Clear existing map markers
+                    fetch('http://localhost:8082/location', {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data);
+                                let tableBody = document.getElementById("soldierTableBody");
+                                tableBody.innerHTML = ""; // Clear existing table data
+
+                                data.forEach(soldier => {
+                                    let row = document.createElement("tr");
+
+                                    row.innerHTML = `
+                                                    <td>${soldier.id}</td>
+                                                    <td>${soldier.firstName}</td>
+                                                    <td>${soldier.lastName}</td>
+                                                    <td>${soldier.rank}</td>
+                                                    <td>${soldier.phoneNumber}</td>
+                                                    <td>${soldier.lat}</td>
+                                                    <td>${soldier.lon}</td>`;
+                                    tableBody.appendChild(row);
+                                    soldier.loc = [soldier.lat, soldier.lon]
+                                    switch (soldier.rank) {
+                                        case "szeregowy":
+                                            switchCustomIcon = szeregowyIcon
+                                            break;
+                                        case "starszy szeregowy":
+                                            switchCustomIcon = starszySzeregowyIcon
+                                            break;
+                                        case "starszy szeregowy specjalista":
+                                            switchCustomIcon = starszySzeregowySpecjalistaIcon
+                                            break;
+                                        case "kapral":
+                                            switchCustomIcon = kapralIcon
+                                            break;
+                                        case "starszy kapral":
+                                            switchCustomIcon = starszyKapralIcon
+                                            break;
+                                        case "plutonowy":
+                                            switchCustomIcon = plutonowyIcon
+                                            break;
+                                        case "sierżant":
+                                            switchCustomIcon = sierzantIcon
+                                            break;
+                                        default:
+                                            console.log("brak zdjęcia");
+                                            switchCustomIcon = customIcon
+                                    }
+                                    L.marker(soldier.loc, {
+                                        title: soldier.firstName + " " + soldier.lastName,
+                                        icon: switchCustomIcon,
+                                    }).bindPopup(`
+                                        <span class="popup">
+                                        <b>${soldier.firstName}
+                                        ${soldier.lastName}</b><br>
+                                        ${soldier.rank}<br>
+                                        Call: <a href="tel:${soldier.phoneNumber}">${soldier.phoneNumber}</a></span>`)
+                                            .addTo(layerGroup);
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error fetching data:', error);
+                                let el_up = document.getElementById("GFG_UP");
+                                el_up.innerHTML = "Error fetching data.";
+                            });
+                }
+
+                function sendCall() {
+                    let checkbox = document.getElementById("confirmCheckbox");
+                    if (checkbox.checked) {
+                        alert("Wezwanie wysłane do wszystkich żołnierzy!");
+                        //TODO - Here you can add the actual functionality to send the call
+                    } else {
+                        alert("Proszę potwierdzić wysłanie wiadomości.");
+                    }
+                }
+            </script>
 
         </div>
     </div>
@@ -425,23 +400,6 @@
 </script>
 
 <script>
-    // JavaScript code
-    fetch('http://localhost:8082/location', {
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        }
-    })
-            .then(response => response.json())
-            .then(data => {
-                // Process the JSON data
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-</script>
-
-<script>
     const map = L.map('map');
     map.setView([51.713, 19.413], 7);
 
@@ -450,42 +408,42 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    const data = {
-        pbaranowski: {
-            loc: [51.74705, 19.45585],
-            firstName: "Piotr",
-            lastName: "Baranowski",
-            phoneNumber: "98764321",
-            rank: "szeregowy",
-        },
-        klesniewski: {
-            loc: [51.74606, 19.45562],
-            firstName: "Karol",
-            lastName: "Lesniewski",
-            phoneNumber: "123456789",
-            rank: "szeregowy",
-        }
-    }
+    var layerGroup = L.layerGroup().addTo(map);
 
+    // icons paths
+    const scale_factor = 5;
     const customIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/szeregowy.png',
-        iconSize: [88/5, 203/5],
+        iconSize: [88/scale_factor, 203/scale_factor],
     })
-
-    for (let key in data) {
-        const soldier = data[key];
-        L.marker(soldier.loc, {
-            title: soldier.firstName + " " + soldier.lastName,
-            icon: customIcon,
-        }).bindPopup(`
-            <span class="popup">
-            <b>${soldier.firstName}
-            ${soldier.lastName}</b><br>
-            ${soldier.rank}<br>
-            Call: <a href="tel:${soldier.phoneNumber}">${soldier.phoneNumber}</a></span>`)
-                .addTo(map);
-    }
-
+    const szeregowyIcon = L.icon({
+        iconUrl: '../static/images/ranks_icons/szeregowy.png',
+        iconSize: [88/scale_factor, 203/scale_factor],
+    })
+    const starszySzeregowyIcon = L.icon({
+        iconUrl: '../static/images/ranks_icons/starszy_szeregowy.png',
+        iconSize: [87/scale_factor, 204/scale_factor],
+    })
+    const starszySzeregowySpecjalistaIcon = L.icon({
+        iconUrl: '../static/images/ranks_icons/starszy_szeregowy_specjalista.png',
+        iconSize: [86/scale_factor, 204/scale_factor],
+    })
+    const kapralIcon = L.icon({
+        iconUrl: '../static/images/ranks_icons/kapral.png',
+        iconSize: [90/scale_factor, 201/scale_factor],
+    })
+    const starszyKapralIcon = L.icon({
+        iconUrl: '../static/images/ranks_icons/starszy_kapral.png',
+        iconSize: [87/scale_factor, 203/scale_factor],
+    })
+    const plutonowyIcon = L.icon({
+        iconUrl: '../static/images/ranks_icons/plutonowy.png',
+        iconSize: [88/scale_factor, 198/scale_factor],
+    })
+    const sierzantIcon = L.icon({
+        iconUrl: '../static/images/ranks_icons/sierzant.png',
+        iconSize: [98/scale_factor, 209/scale_factor],
+    })
 </script>
 
 </body>
