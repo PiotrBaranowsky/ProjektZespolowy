@@ -1,6 +1,5 @@
-package projekt.karol.lesniewski.mapa;
+package com.example.mocklocationservice;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,10 +11,7 @@ public class MapLocation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Nullable
     Double lat;
-
-    @Nullable
     Double lon;
     String firstName;
 
@@ -25,18 +21,9 @@ public class MapLocation {
 
     String rank;
 
-
-
     public MapLocation(List<Double> loc, String firstName, String lastName, String phoneNumber, String rank) {
         this.lat = loc.get(0);
         this.lon = loc.get(1);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.rank = rank;
-    }
-
-    public MapLocation(String firstName, String lastName, String phoneNumber, String rank) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
