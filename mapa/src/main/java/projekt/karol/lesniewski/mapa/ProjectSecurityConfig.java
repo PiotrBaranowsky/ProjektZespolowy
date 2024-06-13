@@ -58,7 +58,7 @@ public class ProjectSecurityConfig {
                         .requestMatchers("/location").hasAnyRole("ADMIN")
                                 .requestMatchers("/login*").anonymous()
                 )
-                .formLogin(formLogin -> formLogin.loginPage("loc")
+                .formLogin(formLogin -> formLogin.loginPage("http://localhost:8081/login.html")
                         .loginProcessingUrl("/login")
                         .successHandler(authenticationSuccessHandler()))
                 .httpBasic(Customizer.withDefaults());
