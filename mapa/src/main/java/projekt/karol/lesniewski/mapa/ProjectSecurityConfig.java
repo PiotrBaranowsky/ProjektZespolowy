@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,12 +23,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
+@EnableWebSecurity
 public class ProjectSecurityConfig {
-
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler(){
-        return new AuthSuccessHandler();
-    }
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -55,13 +52,16 @@ public class ProjectSecurityConfig {
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests)->requests
+                        .requestMatchers("/static/images/**", "/static/css/**", "/static/js/**").permitAll()
                         .requestMatchers("/location").hasAnyRole("ADMIN")
-                                .requestMatchers("/login*").anonymous()
+                        .requestMatchers("/index").permitAll()
+                        .requestMatchers("/loginn*").anonymous()
                 )
-                .formLogin(formLogin -> formLogin.loginPage("http://localhost:8081/login.html")
+                .formLogin(formLogin -> formLogin.loginPage("/loginn").permitAll()
                         .loginProcessingUrl("/login")
-                        .successHandler(authenticationSuccessHandler()))
-                .httpBasic(Customizer.withDefaults());
+                        .defaultSuccessUrl("/empty", true)
+                        .failureUrl("/loginn?error=true")
+                );
         return http.build();
     }
 
@@ -71,11 +71,3 @@ public class ProjectSecurityConfig {
     }
 
 }
-
-
-//.requestMatchers(HttpMethod.POST, "/newUser").permitAll()
-// .anyRequest().authenticated()
-//.hasRole("ADMIN")
-//.requestMatchers("/myCards").hasRole("USER")
-//.requestMatchers("/user").authenticated()
-//.requestMatchers("/notices","/contact","/register").permitAll()
