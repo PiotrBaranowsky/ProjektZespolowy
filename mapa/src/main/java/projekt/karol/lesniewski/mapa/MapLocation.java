@@ -5,10 +5,8 @@ import jakarta.annotation.Nullable;
 import java.util.List;
 
 public class MapLocation {
-    @Nullable
     Double lat;
 
-    @Nullable
     Double lon;
     String firstName;
 

@@ -18,10 +18,9 @@ public class MessageController {
     }
 
     @GetMapping(value = "/send")
-    public String producer(@RequestParam("baseId") Integer id, @RequestParam("text") String text, @RequestParam("key") String key) {
+    public String producer(@RequestParam("baseId") Integer id, @RequestParam("text") String text) {
         GetLocationMessage emp=new GetLocationMessage(id, text);
-        rabbitMQSender.send(emp, key);
-        return "Message sent to the RabbitMQ with routing key: " + key;
+        return rabbitMQSender.send(emp);
     }
 
 }

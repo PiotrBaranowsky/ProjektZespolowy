@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:layout_gravity="center_horizontal|center_vertical"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="344dp"
+            android:layout_height="126dp"
+            android:layout_marginEnd="4dp"
+            android:autoSizeTextType="none"
+            android:text="Locaction is disabled!"
+            android:textAlignment="center"
+            android:textColorLink="#BD2121"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="298dp" />
+
+        <TextView
+            android:id="@+id/informationText"
+            android:layout_width="344dp"
+            android:layout_height="126dp"
+            android:layout_marginEnd="4dp"
+            android:autoSizeTextType="none"
+            android:text="Service is offline!"
+            android:textAlignment="center"
+            android:textColorLink="#BD2121"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="298dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputDeviceID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="code" />
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="phoneNumber" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="128dp"
+            android:layout_height="114dp"
+            android:layout_weight="1"
+            android:text="Button" />
+    </LinearLayout>
+
+
+</RelativeLayout>

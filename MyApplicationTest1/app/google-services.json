@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "760439454007",
+    "project_id": "stunning-yeti-416013",
+    "storage_bucket": "stunning-yeti-416013.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760439454007:android:01dcf5144a1c61f9c342b2",
+        "android_client_info": {
+          "package_name": "com.example.myapplicationtest1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrItbXEgK6iFrp9sfjFoYWBBvBFmSh7rM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

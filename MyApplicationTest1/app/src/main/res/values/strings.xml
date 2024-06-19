@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Application Test 1</string>
+    <string name="isRegistered">Registered</string>
+    <string name="deviceId">"rzikdciylx"</string>
+</resources>
