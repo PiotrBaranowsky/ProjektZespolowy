@@ -1,4 +1,4 @@
-package pl.politechnika.mapawot.security;
+package pl.politechnika.mapawot.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

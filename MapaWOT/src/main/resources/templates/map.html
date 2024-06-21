@@ -151,21 +151,30 @@
         <div class="main" style="flex:1;">
             Wybierz Brygadę Obrony Terytorialnej
             <br>
-            <select name="language" id="language">
-                <option value="podlaska">1. Podlaska Brygada Obrony Terytorialnej</option>
-                <option value="lubelska">2. Lubelska Brygada Obrony Terytorialnej</option>
-                <option value="podkarpacka">3. Podkarpacka Brygada Obrony Terytorialnej</option>
-                <option value="warminsko-mazurska">4. Warmińsko - Mazurska Brygada Obrony Terytorialnej</option>
-                <option value="mazowiecka-ciechanow">5. Mazowiecka Brygada Obrony Terytorialnej</option>
-                <option value="mazowiecka-radom">6. Mazowiecka Brygada Obrony Terytorialnej</option>
-                <option value="pomorska">7. Pomorska Brygada Obrony Terytorialnej</option>
-                <option value="kujawsko-pomorska">8. Kujawsko - Pomorska Brygada Obrony Terytorialnej</option>
-                <option value="lodzka">9. Łódzka Brygada Obrony Terytorialnej</option>
+            <select name="brigade" id="brigade">
+                <option value=1>1. Podlaska Brygada Obrony Terytorialnej</option>
+                <option value=2>2. Lubelska Brygada Obrony Terytorialnej</option>
+                <option value=3>3. Podkarpacka Brygada Obrony Terytorialnej</option>
+                <option value=4>4. Warmińsko - Mazurska Brygada Obrony Terytorialnej</option>
+                <option value=5>5. Mazowiecka Brygada Obrony Terytorialnej</option>
+                <option value=6>6. Mazowiecka Brygada Obrony Terytorialnej</option>
+                <option value=7>7. Pomorska Brygada Obrony Terytorialnej</option>
+                <option value=8>8. Kujawsko - Pomorska Brygada Obrony Terytorialnej</option>
+                <option value=9>9. Łódzka Brygada Obrony Terytorialnej</option>
+                <option value=10>10. Świętokrzyska Brygada Obrony Terytorialnej</option>
+                <option value=11>11. Małopolska Brygada Obrony Terytorialnej</option>
+                <option value=12>12. Wielkopolska Brygada Obrony Terytorialnej</option>
+                <option value=13>13. Śląska Brygada Obrony Terytorialnej</option>
+                <option value=14>14. Zachodniopomorska Brygada Obrony Terytorialnej</option>
+                <option value=16>16. Dolnośląska Brygada Obrony Terytorialnej</option>
+                <option value=18>18. Stołeczna Brygada Obrony Terytorialnej</option>
+                <option value=19>19. Nadbużańska Brygada Obrony Terytorialnej</option>
+                <option value=20>20. Przemyska Brygada Obrony Terytorialnej</option>
             </select>
             <br>
             <br>
             Pobierz lokalizacje Żołnierzy
-            <button onclick="GFG_FUN()">Pobierz lokalizacje</button>
+            <button onclick="GFG_FUN(brigade.getvalue)">Pobierz lokalizacje</button>
             <br>
             <br>
             Wyślij wezwanie do Jednostki do wszystkich
@@ -188,7 +197,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>ID Brygady</th>
                         <th>Imię</th>
                         <th>Nazwisko</th>
                         <th>Stopień</th>
@@ -205,6 +214,7 @@
 
             <script>
                 function GFG_FUN() {
+                    let looking_for_brigade = document.getElementById("brigade").value;
                     layerGroup.clearLayers(); // Clear existing map markers
                     fetch('http://localhost:8082/location', {
                         headers: {
@@ -218,10 +228,14 @@
                                 tableBody.innerHTML = ""; // Clear existing table data
 
                                 data.forEach(soldier => {
+                                    console.log(looking_for_brigade);
+                                    if (soldier.brigade != looking_for_brigade) {
+                                        return;
+                                    }
                                     let row = document.createElement("tr");
 
                                     row.innerHTML = `
-                                                    <td>${soldier.id}</td>
+                                                    <td>${soldier.brigade}</td>
                                                     <td>${soldier.firstName}</td>
                                                     <td>${soldier.lastName}</td>
                                                     <td>${soldier.rank}</td>
@@ -277,9 +291,26 @@
 
                 function sendCall() {
                     let checkbox = document.getElementById("confirmCheckbox");
+                    let looking_for_brigade = document.getElementById("brigade").value;
                     if (checkbox.checked) {
-                        alert("Wezwanie wysłane do wszystkich żołnierzy!");
-                        //TODO - Here you can add the actual functionality to send the call
+                        fetch(`http://localhost:8084/rabbitmq/send?baseId=${looking_for_brigade}&text=Zapraszamy`, {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                                .then(response => {
+                                    if (response.ok) {
+                                        console.log('Wiadomość wysłana pomyślnie');
+                                        alert("Wezwanie wysłane do wszystkich żołnierzy!");
+                                    } else {
+                                        console.error('Błąd przy wysyłaniu wiadomości');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Wystąpił błąd:', error);
+                                });
+
+
                     } else {
                         alert("Proszę potwierdzić wysłanie wiadomości.");
                     }
@@ -414,35 +445,35 @@
     const scale_factor = 5;
     const customIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/szeregowy.png',
-        iconSize: [88/scale_factor, 203/scale_factor],
+        iconSize: [88 / scale_factor, 203 / scale_factor],
     })
     const szeregowyIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/szeregowy.png',
-        iconSize: [88/scale_factor, 203/scale_factor],
+        iconSize: [88 / scale_factor, 203 / scale_factor],
     })
     const starszySzeregowyIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/starszy_szeregowy.png',
-        iconSize: [87/scale_factor, 204/scale_factor],
+        iconSize: [87 / scale_factor, 204 / scale_factor],
     })
     const starszySzeregowySpecjalistaIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/starszy_szeregowy_specjalista.png',
-        iconSize: [86/scale_factor, 204/scale_factor],
+        iconSize: [86 / scale_factor, 204 / scale_factor],
     })
     const kapralIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/kapral.png',
-        iconSize: [90/scale_factor, 201/scale_factor],
+        iconSize: [90 / scale_factor, 201 / scale_factor],
     })
     const starszyKapralIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/starszy_kapral.png',
-        iconSize: [87/scale_factor, 203/scale_factor],
+        iconSize: [87 / scale_factor, 203 / scale_factor],
     })
     const plutonowyIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/plutonowy.png',
-        iconSize: [88/scale_factor, 198/scale_factor],
+        iconSize: [88 / scale_factor, 198 / scale_factor],
     })
     const sierzantIcon = L.icon({
         iconUrl: '../static/images/ranks_icons/sierzant.png',
-        iconSize: [98/scale_factor, 209/scale_factor],
+        iconSize: [98 / scale_factor, 209 / scale_factor],
     })
 </script>
 
