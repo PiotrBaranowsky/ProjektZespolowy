@@ -28,6 +28,12 @@ public class OurRestController {
 //    @Autowired
 //    PasswordEncoder passwordEncoder;
 
+
+    @GetMapping("/home")
+    public String home(){
+        return "This is home page";
+
+    }
     @GetMapping("/location")
     public List<MapLocation> getLocation() {
         System.out.println("111");

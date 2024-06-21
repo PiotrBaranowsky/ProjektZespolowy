@@ -15,10 +15,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="116dp"
+            app:srcCompat="@drawable/mapawot" />
+
         <TextView
             android:id="@+id/locationText"
-            android:layout_width="344dp"
-            android:layout_height="126dp"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
             android:layout_marginEnd="4dp"
             android:autoSizeTextType="none"
             android:text="Locaction is disabled!"
@@ -29,13 +35,40 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="298dp" />
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputDeviceID"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:layout_weight="120"
+            android:focusedByDefault="true"
+            android:hint="Kod dostępu"
+            android:textSize="26dp" />
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_weight="120"
+            android:hint="Numer telefonu"
+            android:textSize="26dp" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_weight="1"
+            android:defaultFocusHighlightEnabled="false"
+            android:text="Zaloguj się"
+            android:textColorLink="#38A965"
+            android:textSize="30dp" />
+
         <TextView
             android:id="@+id/informationText"
-            android:layout_width="344dp"
-            android:layout_height="126dp"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
             android:layout_marginEnd="4dp"
             android:autoSizeTextType="none"
-            android:text="Service is offline!"
             android:textAlignment="center"
             android:textColorLink="#BD2121"
             android:textSize="24sp"
@@ -43,25 +76,6 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="298dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputDeviceID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="code" />
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputPhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="phoneNumber" />
-
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="128dp"
-            android:layout_height="114dp"
-            android:layout_weight="1"
-            android:text="Button" />
     </LinearLayout>
 
 

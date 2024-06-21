@@ -2,13 +2,16 @@ package com.example.myapplicationtest1;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         factory.setPassword("guest");
         factory.setVirtualHost("/");
         factory.setPort(5672);
+        statusCheck();
 
         try{
             Connection connection = factory.newConnection();
@@ -118,11 +122,41 @@ public class MainActivity extends AppCompatActivity {
             channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
 
         }catch (IOException e) {
-            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         catch (TimeoutException e) {
-            Toast.makeText(MainActivity.this, "Timeout error!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this, "Timeout error!", Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    public void statusCheck() {
+        System.out.println("check location status");
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+            System.out.println("no gps");
+
+        }
+    }
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -203,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 String responseFromAPI = response.body();
+                System.out.println("location check look here");
                 System.out.println("location: " + responseFromAPI);
                 Toast.makeText(MainActivity.this, responseFromAPI, Toast.LENGTH_SHORT).show();
             }
