@@ -78,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         brigade = sh.getInt("brigade", 0);
         deviceId = sh.getString("device", "");
+        TextView textView = findViewById(R.id.informationText);
+        if (brigade == 0){
+            textView.setText("Urządzenie niezalogowane");
+        }
+        else
+            textView.setText("Urządzenie zalogowane, brygada nr: "+ brigade);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Base:" + glm.getBaseId());
                 System.out.println("Base:" + brigade);
                 if(glm.getBaseId() == brigade) {
-                    System.out.println("Notification!");
+                    textView.setText(glm.getText());
                 }
             };
 
@@ -167,6 +173,13 @@ public class MainActivity extends AppCompatActivity {
         deviceId = sh.getString("device", "");
 
         TextInputEditText deviceInput = findViewById(R.id.inputDeviceID);
+
+        TextView textView = findViewById(R.id.informationText);
+        if (brigade == 0){
+            textView.setText("Urządzenie niezalogowane");
+        }
+        else
+            textView.setText("Urządzenie zalogowane, brygada nr: "+ brigade);
 
         deviceInput.setText(deviceId);
 
@@ -266,13 +279,16 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 String responseFromAPI = response.body();
                 System.out.println("register: " + responseFromAPI);
+                TextView textView = findViewById(R.id.informationText);
                 if(!responseFromAPI.equals("NoDevice") && !responseFromAPI.equals("NoUser")) {
                     brigade = Integer.parseInt(responseFromAPI);
                     deviceId = device;
+                    textView.setText("Urządzenie zalogowane, brygada nr: "+ brigade);
                 }
 
                 else {
                     brigade = 0;
+                    textView.setText("Urządzenie niezalogowane");
                     deviceId = "";
                 }
 
