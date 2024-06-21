@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                 String responseFromAPI = response.body();
                 System.out.println("location check look here");
                 System.out.println("location: " + responseFromAPI);
-                Toast.makeText(MainActivity.this, responseFromAPI, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, responseFromAPI, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
                 String responseFromAPI = response.body();
                 System.out.println("register: " + responseFromAPI);
                 TextView textView = findViewById(R.id.informationText);
-                if(!responseFromAPI.equals("NoDevice") && !responseFromAPI.equals("NoUser")) {
+                if(!responseFromAPI.equals("NoDevice") && !responseFromAPI.equals("NoUser") && !responseFromAPI.equals("PhoneNumberError")) {
                     brigade = Integer.parseInt(responseFromAPI);
                     deviceId = device;
                     textView.setText("Urządzenie zalogowane, brygada nr: "+ brigade);

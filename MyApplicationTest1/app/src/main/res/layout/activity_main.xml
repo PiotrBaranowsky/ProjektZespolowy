@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#131416"
         android:orientation="vertical">
 
         <ImageView
@@ -29,6 +30,7 @@
             android:autoSizeTextType="none"
             android:text="Locaction is disabled!"
             android:textAlignment="center"
+            android:textColor="#FFFFFF"
             android:textColorLink="#BD2121"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +44,10 @@
             android:layout_weight="120"
             android:focusedByDefault="true"
             android:hint="Kod dostępu"
+            android:shadowColor="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorHint="#686868"
             android:textSize="26dp" />
 
 
@@ -51,6 +57,10 @@
             android:layout_height="142dp"
             android:layout_weight="120"
             android:hint="Numer telefonu"
+            android:shadowColor="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorHint="#686868"
             android:textSize="26dp" />
 
         <Button
@@ -58,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_weight="1"
+            android:backgroundTint="#38A965"
             android:defaultFocusHighlightEnabled="false"
             android:text="Zaloguj urządzenie"
             android:textColorLink="#38A965"
@@ -71,6 +82,7 @@
             android:autoSizeTextType="none"
             android:text="Urządzenie niezalogowane"
             android:textAlignment="center"
+            android:textColor="#FFFFFF"
             android:textColorLink="#BD2121"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
